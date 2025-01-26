@@ -1,0 +1,324 @@
+/* Set preference toolkit.legacyUserProfileCustomizations.stylesheets to true !! */
+
+/*
+siehe auch:
+- zu Farben: https://www.reddit.com/r/Thunderbird/comments/1et0lzy/update_full_color_customization_of_thunderbird/
+- Farben nach Tag: https://old.reddit.com/r/Thunderbird/comments/1hhmaih/colour_coding_by_project/m2t787t/
+
+
+*/
+
+/* via Betterbird */
+/* https://www.betterbird.eu/expert-tips/userChrome.css */
+/* Some cute icons on context menus */
+#mailContext-delete {
+  color: red !important;
+}
+
+#mailContext-delete::before {
+  content: url("chrome://messenger/skin/icons/new/compact/warning.svg") !important;
+  -moz-context-properties: fill, stroke, fill-opacity;
+  margin-right: -16px;
+  fill: yellow;
+  stroke: red;
+}
+
+#folderPaneContext-emptyTrash {
+  color: red !important;
+}
+
+#folderPaneContext-emptyTrash::before {
+  content: url("chrome://messenger/skin/icons/new/compact/trash.svg") !important;
+  -moz-context-properties: fill, stroke, fill-opacity;
+  margin-right: -16px;
+  fill: yellow;
+  stroke: red;
+}
+
+/* Variablen für Farben */
+/* Verwendung: var(--blue) */
+:root {
+  --blue: #1e90ff;
+  --white: #ffffff;
+  /* folgendes nur im Ordnerbaum: */
+  --is_selected: #c8c8c9;
+  --is_selected_focus: rgb(98, 255, 229);
+
+  --is_hover: #b5caff;
+  --background_sidepanel: #e1e1e2;
+  --font_sidepanel: #4e4e4f;
+
+  --font-size-root: 20px !important;
+
+  /* vorhandene Farben umdefinieren */
+  --folder-color-folder: #1e90ff !important;
+}
+
+:root {
+  --listbox-border-radius: 6px !important;
+}
+
+/* ============ Side Panel mit Ordnern */
+
+/* side panel Hintergrund wie Rahmenfarbe */
+:root {
+  @media not (prefers-contrast) {
+    /* Ordnerleiste */
+    --foldertree-background: var(--background_sidepanel) !important;
+
+    /* Listenansicht */
+    --tree-pane-background: var(--white) !important;
+
+    /* Ordnerleiste ausgewählter Ordner */
+    --list-container-background-selected: var(--is_selected) !important;
+    --list-container-border-selected: transparent !important;
+    --list-container-background-selected-current: var(--is_selected) !important;
+    --list-container-border-selected-current: transparent !important;
+    --list-container-background-hover: var(--is_hover) !important;
+    --list-container-border-hover: transparent !important;
+    --list-container-background-selected-focused: var(--is_selected_focus) !important;
+    --list-container-border-selected-focused: transparent !important;
+    --list-container-border-selected-current-focused: transparent !important;
+    --list-container-background-selected-current-focused: var(--is_selected) !important;
+  }
+}
+
+/* unset bold font for unread items */
+.name {
+  .unread > .container > &,
+  .new-messages > .container > & {
+    font-weight: unset !important;
+  }
+}
+
+#folderTree .name {
+  font-weight: unset !important;
+}
+
+/* via https://support.mozilla.org/en-US/questions/1360794 */
+/* set font size in folder pane */
+#folderTree .container {
+  /*      font-size: 10pt !important;*/
+  font-size: 1.2rem !important;
+  font-weight: unset !important;
+}
+/* Abstände für side panel items */
+#folderTree .container {
+  margin-inline: 9px !important;
+  /*  steuert auch das Einrücken! :  */
+  /* padding-left: 0px !important; */
+}
+
+#folderTree {
+  & {
+    --border-width: 0 !important;
+    border: none !important;
+    /* border-left: 6px solid transparent !important; */
+    /* ist aussen herum! */
+  }
+}
+
+#folderTree {
+  & ul {
+    /* --indent: calc(16px * var(--depth)); */
+    --indent: calc(9px * var(--depth)) !important;
+  }
+}
+
+/* Abstände für > twisty  und dessen Icon vor den Ordnern */
+#folderTree .twisty {
+  /* margin-inline-start: -4px !important; */
+  /* margin-inline-end: -4px !important; */
+  width: 8px !important;
+  margin-left: 2px !important  ;
+  margin-right: 4px !important  ;
+}
+
+#folderTree .twisty-icon {
+  height: 45% !important;
+  /* margin-left: 2px !important  ; */
+  /* margin-right: -12px !important  ; */
+}
+
+/* folder icon color */
+#folderTree .icon {
+  --icon-color: var(--folder-color-folder) !important;
+}
+
+/* ABstände der BEschriftung des Ordners */
+#folderTree .name {
+  margin-inline-start: 4px !important;
+  margin-inline-end: 6px !important;
+}
+
+#folderTree.sidebar-panel-scroll {
+  /* scrollbar-color: aqua green !important; */
+  scrollbar-color: #b9b8b7 #e1e1e2 !important;
+  border: none !important;
+  border-image-width: 0px !important;
+
+  padding: 0px !important;
+
+  /* klappt nicht: */
+  -moz-default-appearance: none !important;
+}
+
+/* mindestbreite badge mit Anzahl */
+#folderTree .folder-count-badge {
+  min-width: 20px !important;
+  padding: 3px 10px !important;
+  color: var(--sidebar-text-color) !important;
+  background-color: var(--is_selected) !important;
+}
+
+#folderTree .unread-count {
+  .unread.children.collapsed:has(ul > .unread) > .container > & {
+    border: none !important;
+    background-color: var(--is_selected) !important;
+  }
+}
+
+/* Indicator ausblenden in Ordnerleiste */
+:is(ul, ol)[role="tree"] {
+  & .container {
+    &::before {
+      display: none !important;
+    }
+  }
+}
+
+/* ============= Listenansicht Messages */
+
+/* via https://support.mozilla.org/en-US/questions/1360794 */
+/* Schriftgröße einstellen */
+#threadTree .sender,
+#threadTree .date {
+  /* font-size: 10pt !important; */
+  font-size: 1.15rem !important;
+  color: black;
+}
+#threadTree .card-container {
+  font-size: 1.05rem !important;
+  color: var(--font_sidepanel) !important;
+}
+
+/* Indicator ausblenden */
+#threadTree[rows="thread-card"] {
+  & .card-layout {
+    & td {
+      & .card-container {
+        &::before {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
+
+/* Listenansicht weniger Abstand links/rechts // kein Radius */
+:root {
+  /* --tree-card-inline: 0px !important; */
+  --tree-card-content-radius: 6px !important;
+}
+
+/* unread indicator position */
+#threadTree[rows="thread-card"] {
+  & .card-layout {
+    & td {
+      & .card-container {
+        & .read-status {
+          height: unset !important;
+        }
+      }
+    }
+  }
+}
+
+/* set font size in message list pane - klappt nicht */
+#threadTree .card-layout td .card-container {
+  /* font-size: 40em !important; */
+
+  /* border ausblenden */
+  border: none !important;
+}
+
+html body.layout-vertical div#threadPane tree-view#threadTree .tree-view-scrollable-container table.tree-table.some-selected tbody tr#threadTree-row3.card-layout.collapsed {
+  /* divider zwischen den Zeilen in der Tabellenansicht */
+}
+
+/* via https://www.sitepoint.com/community/t/adding-after-content-to-tr-breaks-table-display-before-and-after-pics/222455/6 */
+#threadPane tbody tr.card-layout::after {
+  content: "" !important;
+  position: absolute !important;
+  display: block !important;
+  left: 70px !important;
+  right: 13px !important;
+  margin: 64px 0 0 !important;
+  border-bottom: 1px solid var(--background_sidepanel) !important;
+}
+#threadPane tbody tr.card-layout td {
+  /* ugly workaround */
+  width: 200% !important;
+}
+
+/* ======= Message Display */
+
+#messageHeader:not([compact]).threadvis,
+#messagepanebox {
+  background-color: white !important;
+  --recipient-avatar-background-color: white !important;
+}
+
+#messageHeader .recipient-multi-line {
+  margin-left: 6px;
+}
+
+/*TODO: weitere headings hinzufügen für min breite */
+#messageHeader #toHeading,
+#messageHeader #expandedcontent-baseLabel,
+#messageHeader #expandeduser-agentLabel,
+#messageHeader #expandedlist-idLabel,
+#messageHeader #expandedtagsLabel,
+#messageHeader #expandeddateLabel,
+#messageHeader #dateHeading,
+#messageHeader #expandedmessage-idLabel,
+#messageHeader #expandedin-reply-toLabel,
+#messageHeader #expandedreferencesLabel,
+#messageHeader #expandedcontent-baseLabel,
+#messageHeader #expandeduser-agentLabel,
+#messageHeader #expandedlist-unsubscribeLabel,
+#messageHeader #expandedlist-subscribeLabel,
+#messageHeader #x-linkHeading,
+#messageHeader #list-idHeading,
+#messageHeader #reply-toHeading,
+#messageHeader #ccHeading,
+#messageHeader > [id$="Label"],
+#messageHeader > [id$="Heading"] {
+  min-width: 45px !important;
+}
+/* eigentlich müsste dies ausreichen, tut aber wegen unterschiedlicher Strukturen nicht */
+
+/* muss noch nach rechts geschoben werden: */
+.message-header-datetime {
+  #expandedtoRow & {
+    align-self: flex-end;
+    margin-block: 2px;
+  }
+}
+
+#messageHeader #expandedsubjectRow {
+  margin-left: 52px !important;
+}
+
+/* via: https://www.elevenforum.com/t/thunderbird-115-css-customization.16320/post-343050 */
+/* Message Pane - Selected Message background/foreground-color */
+/* tr.selected {
+  background-color: #2f261d !important;
+  color: white !important;
+} */
+
+/* Message Pane - Hover Message background/foreground-color */
+/* tr:hover {
+    background-color: #2f261d !important;
+  color:            white !important;
+} */

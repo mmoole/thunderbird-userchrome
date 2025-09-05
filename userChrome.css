@@ -35,34 +35,58 @@ siehe auch:
   stroke: red;
 }
 
+/* Ausblenden der Account-Ordner im Ordnerbaum unified folders
+via https://addons.thunderbird.net/en-US/thunderbird/addon/hide-email-folders/
+via
+*/
+#folderTree li[data-mode="smart"] li[data-server-type="none"] {
+  /*display:none;*/
+}
+
+#folderTree li[data-mode="smart"] li[data-server-type="imap"] {
+  display: none;
+}
+
+#folderTree li[data-mode="smart"] li[data-server-type="pop3"] {
+  display: none;
+}
+
 /* Variablen für Farben */
 /* Verwendung: var(--blue) */
 :root {
-  --blue: #1e90ff;
-  --white: #ffffff;
+  --blue: rgb(30, 144, 255);
+  --white: rgb(255, 255, 255);
   /* folgendes nur im Ordnerbaum: */
-  --is_selected: #c8c8c9;
-  --is_selected_focus: rgb(98, 255, 229);
+  --is_selected: rgb(193, 193, 193);
+  --is_selected_card: rgb(215, 215, 215);
+  --is_selected_focus: rgb(0, 89, 221);
+  --is_selected_focus_cal: rgb(95, 159, 255);
 
-  --is_hover: #b5caff;
-  --background_sidepanel: #e1e1e2;
-  --font_sidepanel: #4e4e4f;
+  --is_hover: rgb(179, 200, 255);
+  --background_sidepanel: rgb(225, 225, 226);
+  --font_sidepanel: rgb(78, 78, 79);
 
   --font-size-root: 20px !important;
 
   /* vorhandene Farben umdefinieren */
-  --folder-color-folder: #1e90ff !important;
-}
+  --folder-color-folder: rgb(30, 144, 255) !important;
 
-:root {
+  /* Farben für ausgewählte Cards aka Messages im Listview */
+  --tree-card-background-current: var(--is_hover) !important; /* auch für hover! */
+  --tree-card-background-selected: var(--is_selected_focus_cal) !important; /* ausgewählt und nicht aktiv wenn mehrere ausgewählt sind */
+  --tree-card-background-selected-current: var(--is_selected_focus_cal) !important; /* workaround da farbe modifiziert wird */
+  --tree-card-background-current-unfocused: var(--is_selected_card) !important;
+  --tree-card-background-selected-unfocused: var(--is_selected_card) !important;
+  --tree-card-background-selected-current-unfocused: var(--is_selected_card) !important;
+
   --listbox-border-radius: 6px !important;
 }
 
-/* ============ Side Panel mit Ordnern */
+/* ============ Side Panel mit Ordnern und Farben für Message List */
 
-/* side panel Hintergrund wie Rahmenfarbe */
 :root {
   @media not (prefers-contrast) {
+    /* side panel Hintergrund wie Rahmenfarbe */
     /* Ordnerleiste */
     --foldertree-background: var(--background_sidepanel) !important;
 
